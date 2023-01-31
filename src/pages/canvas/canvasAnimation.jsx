@@ -11,6 +11,24 @@ export const CanvasAnimation = () => {
   let sunImg = new Image
   let earthImg = new Image
   let moonImg = new Image
+  const ball = {
+    x: 50,
+    y: 50,
+    ax: 0.001,
+    radius: 20,
+    vx: 1,
+    vy: 3,
+    draw: () => {
+      ctx.beginPath()
+      // ctx.strokeStyle = "green"
+      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false)
+      ctx.closePath()
+      ctx.fillStyle = "green"
+      ctx.fill()
+    }
+
+
+  }
 
   useEffect(() => {
     const canvas = document.getElementById('canvas1')
@@ -21,6 +39,32 @@ export const CanvasAnimation = () => {
   }, [])
 
   const init = () => {
+    // canvasSun()
+    requestAnimationFrame(drawBall)
+  }
+
+  const drawBall = () => {
+    ctx.clearRect(0, 0, 500, 500); // 清除画布
+    ball.draw()
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+    ball.vx = ball.vx - ball.ax // x轴逐渐减速为0
+    if (Math.abs(ball.vx - ball.ax) < 0.001) {
+      ball.vx = 0;
+      ball.ax = 0
+    }
+    ball.vy = ball.vy + 0.25; // 给定y轴加速度
+    if ((ball.x + ball.vx + ball.radius) > 500 || ball.x + ball.vx - ball.radius < 0) { //边界碰撞速度减少
+      ball.vx = -ball.vx * 0.6
+      ball.ax = -ball.ax
+    }
+    if ((ball.y + ball.vy + ball.radius) > 500 || ball.y + ball.vy - ball.radius < 0) {
+      ball.vy = -ball.vy * 0.6
+    }
+    requestAnimationFrame(drawBall)
+  }
+
+  const canvasSun = () => {
     sunImg.src = sun;
     earthImg.src = earth
     moonImg.src = moon
