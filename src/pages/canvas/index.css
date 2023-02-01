@@ -1,5 +1,11 @@
-#canvas, #canvas1{
+#canvas, #canvas1, #canvasSnow{
   margin-top: 20px;
   border-radius: 3px;
   box-shadow: 0 0 5px #ccc;
+}
+
+#canvasSnow{
+ background: url(../../img/snow.png);
+ background-size: cover;
+
 }
